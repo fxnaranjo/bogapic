@@ -1,18 +1,18 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: gateway8-service
+  name: gateway9-service
   labels: {
     app.kubernetes.io/instance: "gatewaycluster",
     app.kubernetes.io/managed-by: "ibm-apiconnect",
-    app.kubernetes.io/name: "gateway8-service"
+    app.kubernetes.io/name: "gateway9-service"
   }
 spec:
   subject:
     organizations:
     - cert-manager
-  commonName: gateway8-service
-  secretName: gateway8-service
+  commonName: gateway9-service
+  secretName: gateway9-service
   issuerRef:
     name: ingress-issuer
   usages:
@@ -27,25 +27,25 @@ spec:
     labels:
       app.kubernetes.io/instance: "gatewaycluster"
       app.kubernetes.io/managed-by: "ibm-apiconnect"
-      app.kubernetes.io/name: "gateway8-service"
+      app.kubernetes.io/name: "gateway9-service"
 
 ---------------------------------------------------------------------------------
 
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: gateway8-peering
+  name: gateway9-peering
   labels: {
     app.kubernetes.io/instance: "gatewaycluster",
     app.kubernetes.io/managed-by: "ibm-apiconnect",
-    app.kubernetes.io/name: "gateway8-peering"
+    app.kubernetes.io/name: "gateway9-peering"
   }
 spec:
   subject:
     organizations:
     - cert-manager
-  commonName: gateway8-peering
-  secretName: gateway8-peering
+  commonName: gateway9-peering
+  secretName: gateway9-peering
   issuerRef:
     name: ingress-issuer
   usages:
@@ -61,16 +61,16 @@ spec:
     labels:
       app.kubernetes.io/instance: "gatewaycluster"
       app.kubernetes.io/managed-by: "ibm-apiconnect"
-      app.kubernetes.io/name: "gateway8-peering"
+      app.kubernetes.io/name: "gateway9-peering"
 
 ---------------------------------------------------------------------------------
 
 apiVersion: gateway.apiconnect.ibm.com/v1beta1
 kind: GatewayCluster
 metadata:
-  name: gateway8
+  name: gateway9
   labels: {
-    app.kubernetes.io/instance: "gateway8",
+    app.kubernetes.io/instance: "gateway9",
     app.kubernetes.io/managed-by: "ibm-apiconnect",
     app.kubernetes.io/name: "gw2v6"
   }
@@ -82,18 +82,18 @@ spec:
     annotations:
       cert-manager.io/issuer: ingress-issuer
     hosts:
-    - name: gw8-apic.mycluster-apic-a8e7ac3bb1f0d5318e81c3533b970b16-0000.us-south.containers.appdomain.cloud
-      secretName: gateway8-endpoint-secret
+    - name: gw9-apic.mycluster-apic-a8e7ac3bb1f0d5318e81c3533b970b16-0000.us-south.containers.appdomain.cloud
+      secretName: gateway9-endpoint-secret
   gatewayManagerEndpoint:
     annotations:
       cert-manager.io/issuer: ingress-issuer
     hosts:
-    - name: gwmanager8-apic.mycluster-apic-a8e7ac3bb1f0d5318e81c3533b970b16-0000.us-south.containers.appdomain.cloud
-      secretName: gateway8-manager-endpoint-secret
+    - name: gwmanager9-apic.mycluster-apic-a8e7ac3bb1f0d5318e81c3533b970b16-0000.us-south.containers.appdomain.cloud
+      secretName: gateway9-manager-endpoint-secret
   apicGatewayServiceTLS:
-    secretName: gateway8-service
+    secretName: gateway9-service
   apicGatewayPeeringTLS:
-    secretName: gateway8-peering
+    secretName: gateway9-peering
   datapowerLogLevel: 4
   license:
     accept: true
@@ -127,3 +127,6 @@ S8FwdNzBUQnvt0cJsaxKsxpXP6Vvzer3
 
 **********************************************************************************************************************************************************************************
 
+Password Windows:
+
+83FryQQ4mqQSfVE2wtlV
