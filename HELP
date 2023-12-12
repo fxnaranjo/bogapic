@@ -1,0 +1,123 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: gateway8-service
+  labels: {
+    app.kubernetes.io/instance: "gatewaycluster",
+    app.kubernetes.io/managed-by: "ibm-apiconnect",
+    app.kubernetes.io/name: "gateway8-service"
+  }
+spec:
+  subject:
+    organizations:
+    - cert-manager
+  commonName: gateway8-service
+  secretName: gateway8-service
+  issuerRef:
+    name: ingress-issuer
+  usages:
+  - "client auth"
+  - "signing"
+  - "key encipherment"
+  duration: 17520h # 2 years
+  renewBefore: 720h # 30 days
+  privateKey:
+    rotationPolicy: Always
+  secretTemplate:
+    labels:
+      app.kubernetes.io/instance: "gatewaycluster"
+      app.kubernetes.io/managed-by: "ibm-apiconnect"
+      app.kubernetes.io/name: "gateway8-service"
+
+---------------------------------------------------------------------------------
+
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: gateway8-peering
+  labels: {
+    app.kubernetes.io/instance: "gatewaycluster",
+    app.kubernetes.io/managed-by: "ibm-apiconnect",
+    app.kubernetes.io/name: "gateway8-peering"
+  }
+spec:
+  subject:
+    organizations:
+    - cert-manager
+  commonName: gateway8-peering
+  secretName: gateway8-peering
+  issuerRef:
+    name: ingress-issuer
+  usages:
+  - "server auth"
+  - "client auth"
+  - "signing"
+  - "key encipherment"
+  duration: 17520h # 2 years
+  renewBefore: 720h # 30 days
+  privateKey:
+    rotationPolicy: Always
+  secretTemplate:
+    labels:
+      app.kubernetes.io/instance: "gatewaycluster"
+      app.kubernetes.io/managed-by: "ibm-apiconnect"
+      app.kubernetes.io/name: "gateway8-peering"
+
+---------------------------------------------------------------------------------
+
+apiVersion: gateway.apiconnect.ibm.com/v1beta1
+kind: GatewayCluster
+metadata:
+  name: gateway8
+  labels: {
+    app.kubernetes.io/instance: "gateway8",
+    app.kubernetes.io/managed-by: "ibm-apiconnect",
+    app.kubernetes.io/name: "gw2v6"
+  }
+spec:
+  version: 10.0.6.0
+  profile: n1xc1.m8
+  apicGatewayServiceV5CompatibilityMode: false
+  gatewayEndpoint:
+    annotations:
+      cert-manager.io/issuer: ingress-issuer
+    hosts:
+    - name: gw8-apic.mycluster-apic-a8e7ac3bb1f0d5318e81c3533b970b16-0000.us-south.containers.appdomain.cloud
+      secretName: gateway8-endpoint-secret
+  gatewayManagerEndpoint:
+    annotations:
+      cert-manager.io/issuer: ingress-issuer
+    hosts:
+    - name: gwmanager8-apic.mycluster-apic-a8e7ac3bb1f0d5318e81c3533b970b16-0000.us-south.containers.appdomain.cloud
+      secretName: gateway8-manager-endpoint-secret
+  apicGatewayServiceTLS:
+    secretName: gateway8-service
+  apicGatewayPeeringTLS:
+    secretName: gateway8-peering
+  datapowerLogLevel: 4
+  license:
+    accept: true
+    use: production
+    license: L-KZXM-S7SNCU
+  tokenManagementService:
+    enabled: true
+    storage:
+      storageClassName: ibmc-block-gold
+      volumeSize: 30Gi
+  adminUser:
+    secretName: datapower-admin-credentials
+
+
+
+
+
+***********************************************************************************************************************************************
+
+
+curl -k --request GET \
+  --url https://medium-gw-gateway-cp4i.mycluster-apic-a8e7ac3bb1f0d5318e81c3533b970b16-0000.us-south.containers.appdomain.cloud/fxnorg/sandbox/v2/pet/5 \
+  --header 'accept: application/json'
+
+
+
+
